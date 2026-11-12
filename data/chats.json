@@ -1,0 +1,8 @@
+{
+  "me": "Ella",
+  "chats": [
+    {"id": "1d_group",   "name": "1D Group 4", "file": "1d_group.txt",   "last_read": "2026-11-11T18:00:00"},
+    {"id": "dance_exco", "name": "Dance exco", "file": "dance_exco.txt", "last_read": "2026-11-11T20:00:00"},
+    {"id": "family",     "name": "Family",     "file": "family.txt",     "last_read": "2026-11-11T21:00:00"}
+  ]
+}
