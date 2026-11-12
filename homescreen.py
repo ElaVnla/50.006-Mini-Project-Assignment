@@ -6,9 +6,9 @@ add_style()
 # static data for the 3 chats
 # this example fake chat data is generated from claude to be use to display the chat in the home page interface
 chats = [
-    {"name": "1D Group 4", "last_sender": "John", "last_text": "gn", "time": "01:25", "unread": 108},
-    {"name": "Dance exco", "last_sender": "Ryan", "last_text": "gn", "time": "00:40", "unread": 88},
-    {"name": "Family", "last_sender": "Dad", "last_text": "gn", "time": "23:45", "unread": 50}
+    {"name": "1D Group 4", "last_sender": "John", "last_text": "gn",         "time": "01:25",     "unread": 108, "mentions_me": True,  "file": "1d_group.txt"},
+    {"name": "Dance exco", "last_sender": "Ryan", "last_text": "gn",         "time": "00:40",     "unread": 88,  "mentions_me": True,  "file": "dance_exco.txt"},
+    {"name": "Family",     "last_sender": "Dad",  "last_text": "gn",         "time": "23:45",     "unread": 50,  "mentions_me": False, "file": "family.txt"}
 ]
 
 st.title("Your designated messaging app")

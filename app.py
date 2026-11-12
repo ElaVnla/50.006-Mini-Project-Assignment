@@ -8,6 +8,7 @@ st.set_page_config(page_title="Chat App", page_icon=":speech_balloon:", layout="
 # load pages
 homescreenpage = st.Page("homescreen.py", title="Home", icon=":material/home:")
 Selectgroupchatpage = st.Page("select_group_chat.py", title="Select Group Chat", icon=":material/auto_awesome:")
+results_page = st.Page("catchup.py", title="Catch Up Results", icon=":material/auto_awesome:")
 
-page = st.navigation([homescreenpage, Selectgroupchatpage], position="hidden")
+page = st.navigation([homescreenpage, Selectgroupchatpage, results_page], position="hidden")
 page.run()
