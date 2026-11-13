@@ -22,7 +22,7 @@ def read_chat(filename):
             msgdata = {
                 "id": len(messages),
                 "time": time,
-                "sender": sender,
+                "sender": rest,
                 "text": txt
             }
 
@@ -60,3 +60,12 @@ def load_chats():
         chats.append(eachchat)
 
     return me, chats
+
+def get_unread(chat_name):
+    me, chats = load_chats()
+
+    for chat in chats:
+        if chat["name"] == chat_name:
+            return chat["unread"]
+
+    return []   # chat not found

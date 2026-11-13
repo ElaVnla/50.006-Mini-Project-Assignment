@@ -1,0 +1,85 @@
+import time
+import ollama
+import json
+
+model = "gemma4:e4b"
+client = ollama.Client(host="http://127.0.0.1:11434", trust_env=False)
+
+#v1: plain prompt
+# pass the whole chat to the model and simply ask to summarize it.
+
+def v1_summarize(chat):
+    #chat here should already have the unread msges
+    chattxt = ""
+    for msg in chat:
+        chattxt = chattxt + msg["sender"] + ": " + msg["text"] + "\n"
+
+    prompt = "Here are unread messages from a group chat. \n" \
+    " Please summarize the messages, and provide a summary of the key points " \
+    "\n and any actionable items."
+
+    start_time = time.time()
+    response = client.chat(
+        model=model,
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": chattxt}
+        ],
+    )
+    seconds = time.time() - start_time
+    summary = response["message"]["content"]
+    wordcnt = len(summary.split())
+    return summary, seconds, wordcnt
+
+def v2_summarize(chat):
+    # turn msg into json cards as the output
+    chattxt = ""
+    for msg in chat:
+        chattxt = chattxt + msg["sender"] + ": " + msg["text"] + "\n"
+
+    prompt = """
+
+You are helping Ella catch up on the unread messages in a group chat. Read these messages and reply
+ONLY with JSOn in this exact format:
+
+{"Cards": [
+{"type": "asked_you, agreed, suggested, task or deadline",
+"text": "one short sentence, under 30 words",
+"changed_from": "the previous plan if it changed, or otherwise this should be empty",
+"source": ["the exact message(s) that this came from, written as Name: message"]
+}]
+}
+
+Skip any messages that are not important, like small talks, memes. 
+
+Messages:
+""" + chattxt
+
+    start_time = time.time()
+    response = client.chat(
+        model=model,
+        messages=[{"role": "system", "content": prompt}],
+        format="json",
+        options={"temperature": 0},
+    )
+
+    seconds = time.time() - start_time
+    raw = response["message"]["content"]
+
+    print("\n===== GEMMA RAW OUTPUT =====")
+    print(raw)
+    print("===== took", round(seconds), "seconds =====")
+
+    # turn json into python data
+    try:
+        # if model switches to lowercase prcaution
+        data = json.loads(raw)
+        if "Cards" in data:
+            cards = data["Cards"]
+        elif "cards" in data:
+            cards = data["cards"]
+    except Exception as e:
+        print("Error parsing JSON from Gemma output:", e)
+        cards = None
+
+    return cards, raw, seconds
