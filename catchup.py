@@ -3,7 +3,7 @@ import streamlit as st
 from cards import show_card
 from data.fake_testresults import fake_results
 from chat_data import get_unread
-from gemma import v1_summarize, v2_summarize, v3_summarize
+from gemma import v1_summarize, v2_summarize, v3_summarize, v4_summarize
 
 st.title("Results of Catching Up on Selected Group Chats")
 
@@ -34,6 +34,7 @@ for chat_name in selected_chats:
     #key = "v1"+chat_name
     key = version+ "_"+chat_name
     if key not in st.session_state:
+        print("Running Gemma for:", key) 
         with st.spinner("Analyzing messages with Gemma..."):
             #result = v1_summarize(unreadmsges)
             if version == "V1: plain":
@@ -42,6 +43,8 @@ for chat_name in selected_chats:
                 st.session_state[key] = v2_summarize(unreadmsges)
             elif version == "V3: + prompt rules":
                 st.session_state[key] = v3_summarize(unreadmsges)
+            elif version == "V4: smaller model (e2b)":
+                st.session_state[key] = v4_summarize(unreadmsges)
     
     result = st.session_state[key]
 
@@ -78,11 +81,15 @@ with col1:
         #     result = v1_summarize(unreadmsges)
         #     st.session_state["v1"+chat_name] = result
         # st.experimental_rerun()
+        # for chat_name in selected_chats:
+        #     # if "v1"+chat_name in st.session_state:
+        #     #     del st.session_state["v1"+chat_name]
+        #     if version+"_"+chat_name in st.session_state:
+        #         del st.session_state["v2_"+chat_name]
         for chat_name in selected_chats:
-            # if "v1"+chat_name in st.session_state:
-            #     del st.session_state["v1"+chat_name]
-            if version+"_"+chat_name in st.session_state:
-                del st.session_state["v2_"+chat_name]
+            key = version + "_" + chat_name
+            if key in st.session_state:
+                del st.session_state[key]
         st.rerun()
 
 with col2:

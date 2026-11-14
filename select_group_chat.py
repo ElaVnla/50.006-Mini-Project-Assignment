@@ -18,7 +18,7 @@ with col1:
 with col3:
     vers = st.radio(
         "debugging purposes",
-        ["V1: plain", "V2: JSON cards", "V3: + prompt rules"],
+        ["V1: plain", "V2: JSON cards", "V3: + prompt rules", "V4: smaller model (e2b)"],
         key="version_picker",
     )
 

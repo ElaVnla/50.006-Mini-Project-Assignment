@@ -108,13 +108,14 @@ Card types (Use exactly one of these for "type"):
 
 Criteria to take note:
 1. Make ONE card per topic and show only the LATEST version. if any plan changes, put the earlier plan in "changed_from" and do not make any separate cards for old plans.
-include all the messages in the "source" field and list it out in chronological order. e.g 1. Ella needs to do A 2. Erika needs to do B
+include only the messages in the "source" field that show the final decision and requests.
 2. Include every final decision, deadline and task for the group and not only just things for Ella.
 3. For tasks, only say who will do it if the message says so. 
 4. Only use information in the messages. Do not add deadlines, priorities, tasks or other information that nobody mentioned in the message.
 5. write the short text description in third person e.g "Marcus asked Ella..."
 6. if there are no earlier plan, leave the "changed_from" to "" (an empty string).
 7. Skip small talks and memes. 
+8. Different requests must be separate cards and every request to Ella must be its own "asked_you" card
 
 Messages:
 """ + chattxt
@@ -142,6 +143,77 @@ Messages:
             cards = data["Cards"]
         elif "cards" in data:
             cards = data["cards"]
+        else:
+            cards = None
+    except Exception as e:
+        print("Error parsing JSON from Gemma output:", e)
+        cards = None
+
+    return cards, raw, seconds
+
+# focus on latecy
+
+def v4_summarize(chat):
+    # turn msg into json cards as the output
+    chattxt = ""
+    for msg in chat:
+        chattxt = chattxt + msg["sender"] + ": " + msg["text"] + "\n"
+
+    prompt = """
+
+You are helping Ella catch up on the unread messages in a group chat. Read these messages and reply
+ONLY with JSON in this exact format:
+
+{"cards": [
+  {"type": "...", "text": "...", "changed_from": "...", "source": ["..."]}
+]}
+
+Card types (Use exactly one of these for "type"):
+- "asked_you" - if the message is asking Ella to do something
+- "agreed" - the group clearly said yes to the plan (e.g: "okay", "can", "confirmed")
+- "suggested" - someone suggested a plan or proposed something, but the group did not agree or replied with either doubt or sarcasm
+- "task" - Someone who is not Ella who agreed to do something or do a task.
+- "deadline" - if the message contains a due date or a time limit for submitting or finishing something.
+
+Criteria to take note:
+1. Make ONE card per topic and show only the LATEST version. if any plan changes, put the earlier plan in "changed_from" and do not make any separate cards for old plans.
+include only the messages in the "source" field that show the final decision and requests.
+2. Include every final decision, deadline and task for the group and not only just things for Ella.
+3. For tasks, only say who will do it if the message says so. 
+4. Only use information in the messages. Do not add deadlines, priorities, tasks or other information that nobody mentioned in the message.
+5. write the short text description in third person e.g "Marcus asked Ella..."
+6. if there are no earlier plan, leave the "changed_from" to "" (an empty string).
+7. Skip small talks and memes. 
+8. Different requests must be separate cards and every request to Ella must be its own "asked_you" card
+
+Messages:
+""" + chattxt
+
+    start_time = time.time()
+    response = client.chat(
+        model="gemma4:e2b",
+        messages=[{"role": "system", "content": prompt}],
+        format="json",
+        options={"temperature": 0},
+    )
+
+    seconds = time.time() - start_time
+    raw = response["message"]["content"]
+
+    print("\n===== GEMMA RAW OUTPUT =====")
+    print(raw)
+    print("===== took", round(seconds), "seconds =====")
+
+    # turn json into python data
+    try:
+        # if model switches to lowercase prcaution
+        data = json.loads(raw)
+        if "Cards" in data:
+            cards = data["Cards"]
+        elif "cards" in data:
+            cards = data["cards"]
+        else:
+            cards = None
     except Exception as e:
         print("Error parsing JSON from Gemma output:", e)
         cards = None
