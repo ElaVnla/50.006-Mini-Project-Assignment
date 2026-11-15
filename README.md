@@ -75,7 +75,7 @@ Below are the decisions, tasks, requests and deadlines in each chat's **unread**
 6. **Task:** Marcus does slides 13–14 and the intro video
 7. **Asked you:** Priya asked Ella to do the user flow diagram
 8. **Asked you:** Marcus asked Ella to update slide 5 with the new user flow before Friday
-9. **Asked you:** The group wants Ella to do the persona slides ("the one who did the interviews la, she can do it") — an indirect reference, used as a deliberate failure test
+9. **Asked you:** The group wants Ella to do the persona slides ("the one who did the interviews la, she can do it") - an indirect reference, used as a deliberate failure test
 10. **Suggested:** Survey with 10 people (not agreed)
 11. **Suggested:** Book a room on Saturday to record the video (nobody agreed)
 

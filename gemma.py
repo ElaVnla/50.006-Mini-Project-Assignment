@@ -108,7 +108,7 @@ Card types (Use exactly one of these for "type"):
 
 Criteria to take note:
 1. Make ONE card per topic and show only the LATEST version. if any plan changes, put the earlier plan in "changed_from" and do not make any separate cards for old plans.
-include all the messages in the "source" field that show the final decision and requests.
+include only the messages in the "source" field that show the final decision and requests.
 2. Include every final decision, deadline and task for the group and not only just things for Ella.
 3. For tasks, only say who will do it if the message says so. 
 4. Only use information in the messages. Do not add deadlines, priorities, tasks or other information that nobody mentioned in the message.
@@ -177,7 +177,7 @@ Card types (Use exactly one of these for "type"):
 
 Criteria to take note:
 1. Make ONE card per topic and show only the LATEST version. if any plan changes, put the earlier plan in "changed_from" and do not make any separate cards for old plans.
-include all the messages in the "source" field that show the final decision and requests.
+include only the messages in the "source" field that show the final decision and requests.
 2. Include every final decision, deadline and task for the group and not only just things for Ella.
 3. For tasks, only say who will do it if the message says so. 
 4. Only use information in the messages. Do not add deadlines, priorities, tasks or other information that nobody mentioned in the message.
