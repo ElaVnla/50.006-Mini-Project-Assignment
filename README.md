@@ -60,11 +60,6 @@ The raw Gemma output and the time taken for each chat are printed in the termina
 | V3: + prompt rules | V2 + stricter prompt rules (final version) |
 | V4: smaller model (e2b) | V3 prompt on `gemma4:e2b`, to test speed |
 
-### Troubleshooting
-
-- **Connection error to Ollama:** check `ollama list` works. If you are behind a system proxy, `gemma.py` already uses `trust_env=False` to connect to `127.0.0.1:11434` directly.
-- **Old results showing:** results are cached per version and chat. Use **Rerun analysis with Gemma** to clear them.
-
 ## For testing verification
 
 Below are the decisions, tasks, requests and deadlines in each chat's **unread** messages (based on the `last_read` times in `data/chats.json`). Use this checklist to see whether the model detects each item, labels it with the right type, and avoids the items under "Should NOT appear".
