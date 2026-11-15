@@ -1,6 +1,6 @@
 # Catch Up
 
-Catch Up helps you catch up on busy group chats without scrolling through hundreds of unread messages. Tap the floating **✨ Catch up** button on the chat list, pick one or more group chats, and a local **Gemma 4** model (via Ollama) turns the unread messages into short cards:
+Catch Up helps you catch up on busy group chats without scrolling through hundreds of unread messages. Tap the floating **Catch up** button on the chat list, pick one or more group chats, and a local **Gemma 4** model (via Ollama) turns the unread messages into short cards:
 
 - **Asked you** – someone asked Ella (the user) to do something
 - **Agreed** – the group clearly agreed on a plan
